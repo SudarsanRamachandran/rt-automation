@@ -18,18 +18,18 @@ const page = await context.newPage();
     
      // Click on the account link in the navigation bar
      await page.click('id=nav-link-accountList-nav-line-1')
-     await page.waitForTimeout(3000);// Wait for 3 seconds
+     await page.waitForTimeout(3000);
 
      // Fill in the email field
-     await page.fill('id=ap_email','sudarsanramachandran7@gmail.com')
-     await page.waitForTimeout(3000);// Wait for 3 seconds
+     await page.fill('id=ap_email','') //Enter email address inside the quotes
+     await page.waitForTimeout(3000);
 
      // Click on the continue button
      await page.click('id=continue')
      await page.waitForTimeout(3000);
 
      // Fill in the password
-     await page.fill('id=ap_password','Kishore@78')
+     await page.fill('id=ap_password','') //Enter password inside the quotes
      await page.waitForTimeout(3000);
 
      // Click on the signin button
@@ -37,7 +37,7 @@ const page = await context.newPage();
      await page.waitForTimeout(20000)
 
      // Click on the best sellers 
-     await page.click('css=.nav-a:nth-child(6)')
+     await page.click('//a[contains(text(),"Best Sellers")]')
      await page.waitForTimeout(3000);
 
      // Click on the Electronics category
@@ -53,26 +53,23 @@ const page = await context.newPage();
      await page.waitForTimeout(3000);
 
      // Click on View your list 
-     await page.click('css=#huc-view-your-list-button .a-button-text')
+     await page.click('//a[contains(text(),"View Your List")]')
      await page.waitForTimeout(5000);
 
-     // Go back to the previous page
-     await page.goBack()
-     await page.waitForTimeout(5000);
-
+   
      // Click on the Add to cart button
-     await page.click('css=.a-section > #addToCart_feature_div #add-to-cart-button')
+     await page.click('//a[contains(text(),"Add to Cart")]')
      await page.waitForTimeout(5000);
 
      // Click on the Proceed to checkout button
-     await page.click('css=#sc-buy-box-ptc-button .a-button-input')
+     await page.click('css=.g-cart-checkout-btn > .a-button-inner span')
      await page.waitForTimeout(5000);
 
      // Go back to the previous page
      await page.goBack()
      await page.waitForTimeout(3000);
 
-     // Fill in th esearch bar with laptops
+     // Fill in the search bar with laptops
      await page.fill('#twotabsearchtextbox', 'laptops');
      await page.waitForTimeout(5000);
 

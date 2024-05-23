@@ -35,3 +35,7 @@ To run the automation script locally, follow these steps:
 
 4. To view the test results:
    View the html file in playwright-report.
+
+Amazon help manual : https://docs.google.com/document/d/1dv1WhJZZAb2LudMkSoiJTu9jDDLfLVl7Xw6s4YH2es0/edit?usp=sharing
+
+Manual testing Test cases : https://docs.google.com/spreadsheets/d/1UB3YTdmzmtqB3EdCMtfa1RsFUGLlK6xi5fjqdnfSfW0/edit?usp=sharing
