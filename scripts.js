@@ -34,7 +34,7 @@ const page = await context.newPage();
 
      // Click on the signin button
      await page.click('id=signInSubmit')
-     await page.waitForTimeout(20000)
+     await page.waitForTimeout(20000) //added some extra time to enter otp/captcha if appears
 
      // Click on the best sellers 
      await page.click('//a[contains(text(),"Best Sellers")]')
