@@ -1,16 +1,16 @@
 # rt-automation
 
-Amazon Automation code using Playwright(Nodejs) for rt-campus :
+(https://www.saucedemo.com/) automation code using Playwright(Nodejs) for rt-campus :
 
 Description:
-This repository contains automation scripts for interacting with the Amazon website using Playwright and Node.js. The scripts automate various tasks such as logging in, searching for products, adding them to the cart and wishlist, and performing checkout actions.
+This repository contains automation scripts for interacting with the (https://www.saucedemo.com/) using Playwright and Node.js. The scripts automate various tasks such as logging in, searching for products, adding them to the cart and wishlist, and performing checkout actions.
 
 Setup:
 
 1.Clone the Repository:
 
 bash
-git clone https://github.com/your-username/amazon-automation.git
+git clone https://github.com/SudarsanRamachandran/rt-automation.git
 
 2.Install Dependencies:
 Navigate to the project directory and install the required dependencies using npm:
@@ -35,7 +35,3 @@ To run the automation script locally, follow these steps:
 
 4. To view the test results:
    View the html file in playwright-report.
-
-Amazon help manual : https://docs.google.com/document/d/1dv1WhJZZAb2LudMkSoiJTu9jDDLfLVl7Xw6s4YH2es0/edit?usp=sharing
-
-Manual testing Test cases : https://docs.google.com/spreadsheets/d/1UB3YTdmzmtqB3EdCMtfa1RsFUGLlK6xi5fjqdnfSfW0/edit?usp=sharing
