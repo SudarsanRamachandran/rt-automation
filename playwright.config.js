@@ -1,5 +1,6 @@
 // @ts-check
 const { defineConfig, devices } = require('@playwright/test');
+const { on } = require('events');
 
 /**
  * Read environment variables from file.
@@ -48,6 +49,13 @@ module.exports = defineConfig({
       use: { ...devices['Desktop Safari'] },
     },
 
+    {
+      use: { video:'on' },
+    },
+
+    {
+      use: { trace:'on' },
+    },
     /* Test against mobile viewports. */
     // {
     //   name: 'Mobile Chrome',

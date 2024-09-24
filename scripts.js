@@ -1,64 +1,66 @@
 const { chromium } = require('playwright');
 
 (async () => {
-    // Launch Chromium browser with headless mode disabled
+    // Launch Chromium browser in a non-headless mode for visibility
     const browser = await chromium.launch({ headless: false });
     const context = await browser.newContext();
     const page = await context.newPage();
 
     try {
-        // Navigate to www.saucedemo.com
+        // Navigate to the homepage and wait until the login button is visible
         await page.goto("https://www.saucedemo.com/");
-        await page.waitForTimeout(2000); // Wait to see the homepage
+        await page.waitForSelector('#login-button');
 
         // Login process
-        await page.fill('id=user-name', 'visual_user');
-        await page.fill('id=password', 'secret_sauce');
-        await page.click('id=login-button');
-        await page.waitForTimeout(2000); // Wait to see the login response
+        await page.fill('#user-name', 'visual_user'); 
+        await page.fill('#password', 'secret_sauce');
+        await page.click('#login-button');
 
-        // Open and navigate the menu
-        await page.click('id=react-burger-menu-btn');
-        await page.waitForTimeout(2000); // Wait to see the menu open
-        await page.click('id=inventory_sidebar_link');
-        await page.waitForTimeout(2000); // Wait to see the inventory page
-        await page.click('id=react-burger-cross-btn'); // Close the menu
-        await page.waitForTimeout(2000); // Wait to see the menu close
+        // Wait for inventory page to load (ensure items are visible)
+        await page.waitForSelector('.inventory_item');
 
-        // Sort items
-        await page.click('css=*[data-test="product-sort-container"]');
-        await page.waitForTimeout(2000); // Wait to see the sorting options
-        await page.selectOption('select[data-test="product-sort-container"]', 'za'); // Sort by Z to A
-        await page.waitForTimeout(2000); // Wait to see the sorting applied
-        await page.selectOption('select[data-test="product-sort-container"]', 'lohi'); // Sort by low to high
-        await page.waitForTimeout(2000); // Wait to see the sorting applied
+        // Open the hamburger menu and select "All Items"
+        await page.click('#react-burger-menu-btn');
+        await page.waitForSelector('#inventory_sidebar_link'); // Wait for the menu option
+        await page.click('#inventory_sidebar_link');
+        await page.click('#react-burger-cross-btn'); // Close the menu
 
-        // Add items to cart
-        await page.click('id=add-to-cart-sauce-labs-backpack');
-        await page.waitForTimeout(2000); // Wait to see item added
-        await page.click('id=add-to-cart-sauce-labs-bolt-t-shirt');
-        await page.waitForTimeout(2000); // Wait to see item added
+        // Sort items by Z to A
+        await page.selectOption('[data-test="product-sort-container"]', 'za');
+        await page.waitForSelector('.inventory_item'); // Ensure items are sorted
 
-        // Go to the shopping cart
-        await page.click('id=shopping_cart_container');
-        await page.waitForTimeout(2000); // Wait to see the cart page
-        await page.click('id=checkout');
-        await page.waitForTimeout(2000); // Wait to see the checkout page
+        // Sort items by price (high to low)
+        await page.selectOption('[data-test="product-sort-container"]', 'hilo');
+        await page.waitForSelector('.inventory_item'); // Ensure items are sorted
 
-        // Fill out the checkout form
-        await page.fill('id=first-name', 'sudarsan');
-        await page.fill('id=last-name', 'ramachandran');
-        await page.fill('id=postal-code', '641012');
-        await page.click('id=continue');
-        await page.waitForTimeout(2000); // Wait to see the checkout summary
-        await page.click('id=finish');
-        await page.waitForTimeout(2000); // Wait to see the finish confirmation
+        // Add two items to the cart
+        await page.click('#add-to-cart-sauce-labs-backpack');
+        await page.click('#add-to-cart-sauce-labs-bolt-t-shirt');
 
+        // Go to the cart and verify checkout button appears
+        await page.click('#shopping_cart_container');
+        await page.waitForSelector('#checkout');
+        await page.click('#checkout');
+
+        // Fill in checkout information and proceed
+        await page.fill('#first-name', 'sudarsan');
+        await page.fill('#last-name', 'ramachandran');
+        await page.fill('#postal-code', '641012');
+        await page.click('#continue');
+
+        // Wait for the finish button and click it
+        await page.waitForSelector('#finish');
+        await page.click('#finish');
+
+        // Wait for confirmation page
+        await page.waitForSelector('.complete-header');
         console.log('Checkout complete.');
+
     } catch (error) {
         console.error('Error during automation:', error);
     } finally {
-        // Close the browser
+        // Ensure browser is closed, even if an error occurs
         await browser.close();
     }
 })();
+
