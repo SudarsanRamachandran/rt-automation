@@ -3,17 +3,22 @@ import { test, expect } from '@playwright/test';
 test.beforeEach(async ({ page }) => {
   // Common sign-in process that runs before each test
   await page.goto('https://www.saucedemo.com/');
+  await page.waitForTimeout(2000);
   await page.fill('#user-name', 'visual_user');    // Fill in the user name
   await page.fill('#password', 'secret_sauce');    // Fill in the password
+  await page.waitForTimeout(2000);
   await page.click('#login-button');               // Click on the login button
+  await page.waitForTimeout(2000);
   await page.waitForSelector('.inventory_item');   // Wait for inventory page to load
 });
 
 test('Verify Z to A sorting', async ({ page }) => {
   // Sort the items from Z to A
   await page.click('#react-burger-menu-btn');          // Open the menu
+  await page.waitForTimeout(2000);
   await page.click('#inventory_sidebar_link');         // Click on All Items
   await page.click('#react-burger-cross-btn');         // Close the menu
+  await page.waitForTimeout(2000);
   await page.selectOption('select[data-test="product-sort-container"]', 'za');  // Sort by Z to A
 
   // Verify sorting order
@@ -25,14 +30,26 @@ test('Verify Z to A sorting', async ({ page }) => {
 });
 
 test('Verify price order high to low', async ({ page }) => {
-  // Sort the items by price from high to low
+  // Step 1: Select sorting option 'High to Low'
   await page.selectOption('select[data-test="product-sort-container"]', 'hilo');  // Sort by High to Low
 
-  // Verify price sorting order
-  const productPrices = await page.$$eval('.inventory_item_price', items => 
+  // Step 2: Wait for the sorting effect (Ensure prices have been updated)
+  await page.waitForFunction(() => {
+    const prices = [...document.querySelectorAll('.inventory_item_price')].map(item =>
+      parseFloat(item.textContent.replace('$', ''))
+    );
+    return prices.every((price, i, arr) => i === 0 || arr[i - 1] >= price);
+  }, { timeout: 10000 }); // Timeout set for 10 seconds
+
+  // Step 3: Capture the prices after sorting
+  const productPrices = await page.$$eval('.inventory_item_price', items =>
     items.map(item => parseFloat(item.textContent.replace('$', '')))
   );
+
+  // Step 4: Manually sort the captured prices (High to Low) for comparison
   const sortedPrices = [...productPrices].sort((a, b) => b - a);
+
+  // Step 5: Verify if the captured product prices match the expected sorted prices
   expect(productPrices).toEqual(sortedPrices);
 });
 
@@ -50,9 +67,11 @@ test('Cart and Checkout', async ({ page }) => {
 
   // Proceed to checkout and fill out the form
   await page.click('#checkout');
+  await page.waitForTimeout(2000);
   await page.fill('#first-name', 'sudarsan');
   await page.fill('#last-name', 'ramachandran');
   await page.fill('#postal-code', '641012');
+  await page.waitForTimeout(2000);
   await page.click('#continue');
 
   // Validate the subtotal
