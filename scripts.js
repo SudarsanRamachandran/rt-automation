@@ -53,6 +53,7 @@ const { chromium } = require('playwright');
         await page.fill('#first-name', 'sudarsan');
         await page.fill('#last-name', 'ramachandran');
         await page.fill('#postal-code', '641012');
+        await page.waitForTimeout(2000);
         await page.click('#continue');
         await page.waitForTimeout(2000);
 
